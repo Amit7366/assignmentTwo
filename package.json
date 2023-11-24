@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:prod": "node ./dist/server.ts",
+    "start:dev": "tsnd --respawn src/server.ts",
     "build": "tsc",
     "lint:fix": "npx eslint src --fix",
     "lint": "eslint src --ignore-path .eslintignore --ext .js,.ts",
@@ -28,6 +30,7 @@
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^9.0.0",
     "prettier": "^3.1.0",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.2"
   }
 }
