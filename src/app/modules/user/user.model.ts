@@ -36,4 +36,4 @@ const userSchema = new Schema<TUser>({
     orders: { type: [orderSchema], default: [] },
 });
 
-const User = model<TUser>('User', userSchema);
+export const User = model<TUser>('User', userSchema);
