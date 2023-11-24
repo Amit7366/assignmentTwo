@@ -14,7 +14,7 @@ const createUser = async (req: Request, res: Response) => {
             success: true,
             message: "User is created successfully!",
             data: result
-        })
+        });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
         res.status(500).json({
@@ -27,7 +27,18 @@ const createUser = async (req: Request, res: Response) => {
 
 const getUsers= async(req: Request,res: Response)=>{
     try{
-        
+        const result = await UserServices.getUserFromDb()
+        res.status(200).json({
+            success: true,
+            message: "User retrived successfully!",
+            data: result
+        })
+    }catch (err: any) {
+        res.status(500).json({
+            success: false,
+            message: err.message || 'Something Went Wrong',
+            error: err,
+        });
     }
 }
 
