@@ -1,6 +1,7 @@
-import { Schema, model, connect } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { TAddress, TOrder, TUser, TUserName } from './user.interface';
-
+import bcrypt from 'bcrypt';
+import config from '../../config';
 
 
 const userNameSchema = new Schema<TUserName>({
@@ -36,6 +37,22 @@ const userSchema = new Schema<TUser>({
     orders: { type: [orderSchema], default: [] },
 });
 
-
+userSchema.pre('save',async function(next) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const user = this;
+    user.password = await bcrypt.hash(
+      user.password,
+      Number(config.bcrypt_saltround)
+      );
+      next();
+  });
+  userSchema.post('save', function(doc,next){
+    doc.password = 'your chosen pasword';
+    next()
+  })
+  userSchema.post('findOne', function(doc,next){
+    doc.password = 'your chosen pasword';
+    next()
+  })
 
 export const User = model<TUser>('User', userSchema);
