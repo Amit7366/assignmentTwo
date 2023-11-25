@@ -90,9 +90,35 @@ const updateUser = async (req: Request, res: Response) => {
     }
 }
 
+const deleteStudent = async (req: Request, res: Response) => {
+
+    try {
+        const userId = parseInt(req.params.userId);
+        const result = await UserServices.deleteUserFromDb(userId)
+        res.status(200).json({
+            success: true,
+            message: "User deleted  successfully!",
+            data: result
+        })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+        res.status(500).json({
+            "success": false,
+            "message": err.message || "User not found",
+            "error": {
+                "code": 404,
+                "description": "User not found!"
+            }
+        });
+    }
+    
+  }
+
+
 export const UserController = {
     createUser,
     getUsers,
     getSingleUser,
-    updateUser
+    updateUser,
+    deleteStudent
 }
