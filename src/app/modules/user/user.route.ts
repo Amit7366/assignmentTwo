@@ -13,6 +13,8 @@ router.delete('/:userId',UserController.deleteStudent);
 
 router.put('/:userId/orders',UserController.addProduct);
 router.get('/:userId/orders', UserController.getUserOrder);
+router.get('/:userId/orders/total-price', UserController.getTotalPrice);
+
 
 
 
