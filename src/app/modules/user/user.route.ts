@@ -11,4 +11,9 @@ router.put('/:userId',UserController.updateUser);
 router.delete('/:userId',UserController.deleteStudent);
 
 
+router.put('/:userId/orders',UserController.addProduct)
+
+
+
+
 export const UserRoutes = router;

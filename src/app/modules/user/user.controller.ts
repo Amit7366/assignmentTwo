@@ -6,7 +6,7 @@ import { userSchema } from "./user.validation";
 
 const createUser = async (req: Request, res: Response) => {
     try {
-        const {user: userData} = req.body;
+        const { user: userData } = req.body;
 
         const zodParseData = userSchema.parse(userData);
 
@@ -116,8 +116,31 @@ const deleteStudent = async (req: Request, res: Response) => {
             }
         });
     }
-    
-  }
+
+}
+
+const addProduct = async (req: Request, res: Response) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        const data = req.body;
+        const result = await UserServices.addProductIntoDb(userId, data)
+        res.status(200).json({
+            success: true,
+            message: "Order created successfully!",
+            data: result
+        })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+        res.status(500).json({
+            "success": false,
+            "message": err.message || "User not found",
+            "error": {
+                "code": 404,
+                "description": "User not found!"
+            }
+        });
+    }
+}
 
 
 export const UserController = {
@@ -125,5 +148,6 @@ export const UserController = {
     getUsers,
     getSingleUser,
     updateUser,
-    deleteStudent
+    deleteStudent,
+    addProduct
 }

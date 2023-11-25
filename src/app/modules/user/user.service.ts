@@ -52,11 +52,37 @@ const deleteUserFromDb = async (userId: number) => {
     
 }
 
+const addProductIntoDb = async (userId: number, data: object) => {
+    const user = new User();
+
+    if (await user.isUserExists(userId)) {
+        const user = await User.findOne({userId});
+        if(user){
+            const result = await User.updateOne(
+                { userId },
+                { $push: { orders: data } },
+                )
+            return result
+        }else{
+            const result = await User.updateOne(
+                { userId },
+                { $addToSet: { orders: data } },
+                )
+            return result
+        }
+        
+    } else {
+        throw new Error('User not Found in DB!')
+    }
+
+
+}
 
 export const UserServices = {
     createUserIntoDb,
     getUserFromDb,
     getSingleUserFromDb,
     updateUserFromDb,
-    deleteUserFromDb
+    deleteUserFromDb,
+    addProductIntoDb
 }
