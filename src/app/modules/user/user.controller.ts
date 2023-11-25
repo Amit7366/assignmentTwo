@@ -142,6 +142,29 @@ const addProduct = async (req: Request, res: Response) => {
     }
 }
 
+const getUserOrder = async (req: Request, res: Response) => {
+
+
+    try {
+        const userId = parseInt(req.params.userId);
+        const result = await UserServices.getOrderFromDb(userId)
+        res.status(200).json({
+            success: true,
+            message: "Order fetched successfully!",
+            data: result
+        })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+        res.status(500).json({
+            "success": false,
+            "message": err.message || "User not found",
+            "error": {
+                "code": 404,
+                "description": "User not found!"
+            }
+        });
+    }
+}
 
 export const UserController = {
     createUser,
@@ -149,5 +172,6 @@ export const UserController = {
     getSingleUser,
     updateUser,
     deleteStudent,
-    addProduct
+    addProduct,
+    getUserOrder
 }

@@ -77,6 +77,23 @@ const addProductIntoDb = async (userId: number, data: object) => {
 
 
 }
+const getOrderFromDb = async (userId: number) => {
+    const user = new User();
+
+    if (await user.isUserExists(userId)) {
+        const result = await User.aggregate([
+            {$match: {userId: userId}},
+            {
+                $project: { orders: 1 }
+            }
+        ]);
+        return result;
+    } else {
+        throw new Error('User not Found in DB!')
+    }
+
+
+}
 
 export const UserServices = {
     createUserIntoDb,
@@ -84,5 +101,6 @@ export const UserServices = {
     getSingleUserFromDb,
     updateUserFromDb,
     deleteUserFromDb,
-    addProductIntoDb
+    addProductIntoDb,
+    getOrderFromDb
 }

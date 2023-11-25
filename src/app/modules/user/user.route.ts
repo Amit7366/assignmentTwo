@@ -11,7 +11,8 @@ router.put('/:userId',UserController.updateUser);
 router.delete('/:userId',UserController.deleteStudent);
 
 
-router.put('/:userId/orders',UserController.addProduct)
+router.put('/:userId/orders',UserController.addProduct);
+router.get('/:userId/orders', UserController.getUserOrder);
 
 
 
