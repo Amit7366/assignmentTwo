@@ -15,8 +15,16 @@ const getUserFromDb = async () =>{
     return result;
 }
 const getSingleUserFromDb = async (userId: number) =>{
-    const result = await User.findOne({userId})
-    return result;
+    const user = new User();
+
+    if(await user.isUserExists(userId)){
+        const result = await User.findOne({userId})
+        return result;
+    }else{
+        throw new Error('User not Found in DB')
+    }
+
+    
 }
 
 
