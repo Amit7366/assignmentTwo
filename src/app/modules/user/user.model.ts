@@ -37,26 +37,37 @@ const userSchema = new Schema<TUser, UserModel, UserMethod>({
   isActive: { type: Boolean, default: true },
   hobbies: { type: [String], default: [] },
   address: { type: addressSchema, required: true },
-  orders: { type: [orderSchema], default: [] },
+  orders: { type: [orderSchema] },
 })
 
 userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this
+  const user = this;
+
+
   user.password = await bcrypt.hash(
     user.password,
     Number(config.bcrypt_saltround),
   )
   next()
-})
+});
+
+// userSchema.pre('findOneAndUpdate', async function(next) {
+//   const update = this._update;
+//   console.log(update);
+// });
+
+
+
 userSchema.post('save', function (doc, next) {
-  doc.password = 'your chosen pasword'
+  doc.password = ''
   next()
 })
-userSchema.post('findOne', function (doc, next) {
-  doc.password = 'your chosen pasword'
-  next()
-})
+
+// userSchema.post('findOne', function (doc, next) {
+//   doc.password = ''
+//   next()
+// })
 
 userSchema.methods.isUserExists = async function (userId: number) {
   const existingUser = User.findOne({ userId })

@@ -4,12 +4,12 @@ import { z } from 'zod'
 const userNameSchema = z.object({
   firstName: z
     .string()
-    .min(2, { message: 'Must be 2 or more characters long' })
-    .max(20),
+    .min(2, { message: 'First Name must be at least 2 characters long' })
+    .max(20, { message: 'First Name can be max 20 characters long' }),
   lastName: z
     .string()
-    .min(2, { message: 'Must be 2 or more characters long' })
-    .max(20),
+    .min(2, { message: 'Last Name must be at least 2 characters long' })
+    .max(20, { message: 'Last Name can be max 20 characters long' }),
 })
 
 // Define a Zod schema for the address model
@@ -29,10 +29,12 @@ const orderSchema = z.object({
 // Define a Zod schema for the user model
 export const userSchema = z.object({
   userId: z.number(),
-  username: z.string(),
-  password: z.string(),
+  username: z.string({
+    required_error: "User name is required",
+  }),
+  password: z.string().min(4),
   fullName: userNameSchema,
-  age: z.number(),
+  age: z.number({required_error: 'Age is required'}),
   email: z.string().email(),
   isActive: z.boolean().default(true),
   hobbies: z.array(z.string()).default([]),

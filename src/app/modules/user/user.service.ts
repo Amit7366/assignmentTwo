@@ -3,7 +3,9 @@ import { User } from './user.model'
 
 const createUserIntoDb = async (user: TUser) => {
   const result = await User.create(user)
-  return result
+
+  const {password,...newUser} = result.toObject();
+  return newUser
 }
 
 const getUserFromDb = async () => {
@@ -15,22 +17,41 @@ const getUserFromDb = async () => {
   return result
 }
 const getSingleUserFromDb = async (userId: number) => {
-  const user = new User()
-
-  if (await user.isUserExists(userId)) {
+  const user = new User();
+  if (await user.isUserExists(userId)){
     const result = await User.findOne({ userId })
-    return result
-  } else {
-    throw new Error('User not Found in DB!')
+    if(result){
+      const {password,...singleUser} = result.toObject();
+        return singleUser;
+    }
+  }else{
+    throw new Error('User not found in DB!')
   }
+  
+
+  // if (await user.isUserExists(userId)) {
+  //   if(result){
+  //     const {password,...singleUser} = result.toObject();
+  //     return singleUser;
+  //   }else{
+  //     throw new Error('User not Found in DB!')
+  //   }
+    
+  // } else {
+  //   throw new Error('User not Found in DB!')
+  // }
 }
 
 const updateUserFromDb = async (userId: number, data: object) => {
   const user = new User()
 
   if (await user.isUserExists(userId)) {
-    const result = await User.updateOne({ userId }, data)
-    return result
+    const result = await User.findOneAndUpdate({ userId }, data)
+    if(result){
+      const {password,...updatedUser} = result.toObject();
+      return updatedUser;
+    }
+    
   } else {
     throw new Error('User not Found in DB!')
   }
@@ -43,7 +64,7 @@ const deleteUserFromDb = async (userId: number) => {
     const result = await User.deleteOne({ userId })
     return result
   } else {
-    throw new Error('User not Found in DB!')
+    throw new Error('User not found in DB!')
   }
 }
 

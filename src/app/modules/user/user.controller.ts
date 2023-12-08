@@ -1,7 +1,8 @@
 import { Request, Response } from 'express'
 import { UserServices } from './user.service'
 import { userSchema } from './user.validation'
-
+import config from '../../config'
+import bcrypt from 'bcrypt'
 const createUser = async (req: Request, res: Response) => {
   try {
     const { user: userData } = req.body
@@ -21,7 +22,7 @@ const createUser = async (req: Request, res: Response) => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: err.message || 'Something Went Wrong',
+      message: err.massage || 'Something Went Wrong!',
       error: err,
     })
   }
@@ -29,7 +30,7 @@ const createUser = async (req: Request, res: Response) => {
 
 const getUsers = async (req: Request, res: Response) => {
   try {
-    const result = await UserServices.getUserFromDb()
+    const result = await UserServices.getUserFromDb();
     res.status(200).json({
       success: true,
       message: 'Users fetched successfully!',
@@ -56,13 +57,13 @@ const getSingleUser = async (req: Request, res: Response) => {
     })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
+    res.status(404).json({
       success: false,
-      message: err.message || 'User not found',
-      error: {
+      message: 'User not found',
+      error:{
         code: 404,
-        description: 'User not found!',
-      },
+        description: 'User not found'
+      }
     })
   }
 }
@@ -81,11 +82,8 @@ const updateUser = async (req: Request, res: Response) => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: err.message || 'User not found',
-      error: {
-        code: 404,
-        description: 'User not found!',
-      },
+      message: 'User not found',
+     
     })
   }
 }
@@ -103,11 +101,8 @@ const deleteStudent = async (req: Request, res: Response) => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: err.message || 'User not found',
-      error: {
-        code: 404,
-        description: 'User not found!',
-      },
+      message: err.message || 'User not found!',
+      data: null
     })
   }
 }
