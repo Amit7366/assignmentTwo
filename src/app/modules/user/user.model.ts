@@ -44,12 +44,35 @@ userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
 
+  if (!user.isModified('password')) return next();
 
   user.password = await bcrypt.hash(
     user.password,
     Number(config.bcrypt_saltround),
   )
   next()
+});
+
+// Pre-findOneAndUpdate hook to hash the password before updating
+userSchema.pre('findOneAndUpdate', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const update: any | null  = this.getUpdate(); // Access the update object
+  const password = update.password;
+
+  if (password) {
+    try {
+      const hashedPassword = await bcrypt.hash(
+        password,
+        Number(config.bcrypt_saltround),
+      )
+      update.password = hashedPassword;
+      next();
+    } catch (error: any) {
+      return next(error);
+    }
+  } else {
+    next();
+  }
 });
 
 // userSchema.pre('findOneAndUpdate', async function(next) {

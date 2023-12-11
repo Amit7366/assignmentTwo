@@ -46,7 +46,7 @@ const updateUserFromDb = async (userId: number, data: object) => {
   const user = new User()
 
   if (await user.isUserExists(userId)) {
-    const result = await User.findOneAndUpdate({ userId }, data)
+    const result = await User.findOneAndUpdate({ userId }, data,{new: true})
     if(result){
       const {password,...updatedUser} = result.toObject();
       return updatedUser;
