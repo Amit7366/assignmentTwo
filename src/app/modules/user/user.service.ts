@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { TUser } from './user.interface'
 import { User } from './user.model'
 
 const createUserIntoDb = async (user: TUser) => {
   const result = await User.create(user)
 
-  const {password,...newUser} = result.toObject();
+  // eslint-disable-next-line no-unused-vars
+  const { password, ...newUser } = result.toObject()
   return newUser
 }
 
@@ -17,17 +19,17 @@ const getUserFromDb = async () => {
   return result
 }
 const getSingleUserFromDb = async (userId: number) => {
-  const user = new User();
-  if (await user.isUserExists(userId)){
+  const user = new User()
+  if (await user.isUserExists(userId)) {
     const result = await User.findOne({ userId })
-    if(result){
-      const {password,...singleUser} = result.toObject();
-        return singleUser;
+    if (result) {
+      // eslint-disable-next-line no-unused-vars
+      const { password, ...singleUser } = result.toObject()
+      return singleUser
     }
-  }else{
+  } else {
     throw new Error('User not found in DB!')
   }
-  
 
   // if (await user.isUserExists(userId)) {
   //   if(result){
@@ -36,7 +38,7 @@ const getSingleUserFromDb = async (userId: number) => {
   //   }else{
   //     throw new Error('User not Found in DB!')
   //   }
-    
+
   // } else {
   //   throw new Error('User not Found in DB!')
   // }
@@ -46,12 +48,12 @@ const updateUserFromDb = async (userId: number, data: object) => {
   const user = new User()
 
   if (await user.isUserExists(userId)) {
-    const result = await User.findOneAndUpdate({ userId }, data,{new: true})
-    if(result){
-      const {password,...updatedUser} = result.toObject();
-      return updatedUser;
+    const result = await User.findOneAndUpdate({ userId }, data, { new: true })
+    if (result) {
+      // eslint-disable-next-line no-unused-vars
+      const { password, ...updatedUser } = result.toObject()
+      return updatedUser
     }
-    
   } else {
     throw new Error('User not Found in DB!')
   }
@@ -127,7 +129,9 @@ const getOrderToalFromDb = async (userId: number) => {
         },
       },
     ])
-    return result
+    const totalPrice = result.length > 0 ? result[0].totalPrice : 0
+
+    return { totalPrice }
   } else {
     throw new Error('User not Found in DB!')
   }

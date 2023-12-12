@@ -1,11 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response } from 'express'
 import { UserServices } from './user.service'
 import { userSchema } from './user.validation'
-import config from '../../config'
-import bcrypt from 'bcrypt'
 const createUser = async (req: Request, res: Response) => {
   try {
-    const { user: userData } = req.body
+    const userData = req.body
 
     const zodParseData = userSchema.parse(userData)
 
@@ -30,7 +29,7 @@ const createUser = async (req: Request, res: Response) => {
 
 const getUsers = async (req: Request, res: Response) => {
   try {
-    const result = await UserServices.getUserFromDb();
+    const result = await UserServices.getUserFromDb()
     res.status(200).json({
       success: true,
       message: 'Users fetched successfully!',
@@ -60,10 +59,10 @@ const getSingleUser = async (req: Request, res: Response) => {
     res.status(404).json({
       success: false,
       message: 'User not found',
-      error:{
+      error: {
         code: 404,
-        description: 'User not found'
-      }
+        description: 'User not found',
+      },
     })
   }
 }
@@ -80,10 +79,13 @@ const updateUser = async (req: Request, res: Response) => {
     })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
+    res.status(404).json({
       success: false,
       message: 'User not found',
-     
+      error: {
+        code: 404,
+        description: 'User not found',
+      },
     })
   }
 }
@@ -91,18 +93,22 @@ const updateUser = async (req: Request, res: Response) => {
 const deleteStudent = async (req: Request, res: Response) => {
   try {
     const userId = parseInt(req.params.userId)
+    // eslint-disable-next-line no-unused-vars
     const result = await UserServices.deleteUserFromDb(userId)
     res.status(200).json({
       success: true,
       message: 'User deleted  successfully!',
-      data: result,
+      data: null,
     })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
+    res.status(404).json({
       success: false,
       message: err.message || 'User not found!',
-      data: null
+      error: {
+        code: 404,
+        description: 'User not found',
+      },
     })
   }
 }
@@ -111,11 +117,12 @@ const addProduct = async (req: Request, res: Response) => {
   try {
     const userId = parseInt(req.params.userId)
     const data = req.body
+    // eslint-disable-next-line no-unused-vars
     const result = await UserServices.addProductIntoDb(userId, data)
     res.status(200).json({
       success: true,
       message: 'Order created successfully!',
-      data: result,
+      data: null,
     })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {

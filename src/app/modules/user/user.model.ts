@@ -42,22 +42,23 @@ const userSchema = new Schema<TUser, UserModel, UserMethod>({
 
 userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this;
+  const user = this
 
-  if (!user.isModified('password')) return next();
+  if (!user.isModified('password')) {
+    return next()
+  }
 
   user.password = await bcrypt.hash(
     user.password,
     Number(config.bcrypt_saltround),
   )
   next()
-});
+})
 
-// Pre-findOneAndUpdate hook to hash the password before updating
 userSchema.pre('findOneAndUpdate', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const update: any | null  = this.getUpdate(); // Access the update object
-  const password = update.password;
+  const update: any | null = this.getUpdate() // Access the update object
+  const password = update.password
 
   if (password) {
     try {
@@ -65,22 +66,21 @@ userSchema.pre('findOneAndUpdate', async function (next) {
         password,
         Number(config.bcrypt_saltround),
       )
-      update.password = hashedPassword;
-      next();
+      update.password = hashedPassword
+      next()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      return next(error);
+      return next(error)
     }
   } else {
-    next();
+    next()
   }
-});
+})
 
 // userSchema.pre('findOneAndUpdate', async function(next) {
 //   const update = this._update;
 //   console.log(update);
 // });
-
-
 
 userSchema.post('save', function (doc, next) {
   doc.password = ''

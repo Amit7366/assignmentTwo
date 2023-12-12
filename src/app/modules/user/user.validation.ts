@@ -30,11 +30,11 @@ const orderSchema = z.object({
 export const userSchema = z.object({
   userId: z.number(),
   username: z.string({
-    required_error: "User name is required",
+    required_error: 'User name is required',
   }),
-  password: z.string().min(4),
+  password: z.string(),
   fullName: userNameSchema,
-  age: z.number({required_error: 'Age is required'}),
+  age: z.number({ required_error: 'Age is required' }),
   email: z.string().email(),
   isActive: z.boolean().default(true),
   hobbies: z.array(z.string()).default([]),

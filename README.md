@@ -1,6 +1,6 @@
 # assignmentTwo
 
-## Library Used 
+## Library Used
 
 *bcrypt
 *cors
@@ -17,110 +17,104 @@
 *lint:fix
 *lint
 *prettier
-*prettier:fix
-
+\*prettier:fix
 
 ## Routes
 
 ### create user
+
 method : post
+
 ```
-http://localhost:5000/api/users
+https://assignment-two-lac.vercel.app/api/users
+```
+
 ```
 {
-    "user": {
-        "userId": 4,
-        "username": "dfgdfg",
-        "password": "mypassword",
-        "fullName": {
-            "firstName": "dfgfgg",
-            "lastName": "dfgfd"
-        },
-        "age": 20,
-        "email": "rupok@example.com",
-        "isActive": true,
-        "hobbies": [
-            "Coding",
-            "Gardening"
-        ],
-        "address": {
-            "street": "madhupur bazar Joseph",
-            "city": "Pallekelle",
-            "country": "Homeland"
-        },
-        "orders": []
-    }
+    "userId": 4,
+    "username": "dfgdfg",
+    "password": "mypassword",
+    "fullName": {
+        "firstName": "dfgfgg",
+        "lastName": "dfgfd"
+    },
+    "age": 20,
+    "email": "rupok@example.com",
+    "isActive": true,
+    "hobbies": [
+        "Coding",
+        "Gardening"
+    ],
+    "address": {
+        "street": "madhupur bazar Joseph",
+        "city": "Pallekelle",
+        "country": "Homeland"
+    },
+    "orders": []
 }
+```
 
 ### get user
+
 method : get
-```
-http://localhost:5000/api/users
 
 ```
-### get single user
-method : get
+https://assignment-two-lac.vercel.app/api/users
+
 ```
-http://localhost:5000/api/users/3
+
+### get single user
+
+method : get
+
+```
+https://assignment-two-lac.vercel.app/api/users/3
 ```
 
 ### update user
+
 method : put
+
 ```
-http://localhost:5000/api/users/3
+https://assignment-two-lac.vercel.app/api/users/3
 ```
 
+```
 {
-  "username": "rupok1",
-  "password": "mypassword",
-  "fullName": {
-    "firstName": "Rupok",
-    "lastName": "Deb"
-  },
-  "age": 20,
-  "email": "rupok@example.com",
-  "isActive": true,
-  "hobbies": ["Coding", "Gardening"],
-  "address": {
-    "street": "madhupur bazar Joseph",
-    "city": "Pallekelle",
-    "country": "Homeland"
-  },
-  "orders": [
-    {
-      "productName": "Product A",
-      "price": 20,
-      "quantity": 2
-    },
-    {
-      "productName": "Product B",
-      "price": 30,
-      "quantity": 1
-    }
-  ]
-}
 
+"age": 20,
+
+}
+```
 
 ### delete user
+
 method : delete
+
 ```
-http://localhost:5000/api/users/3
+https://assignment-two-lac.vercel.app/api/users/3
 ```
 
+### add product
 
-### add product 
 method : put
+
 ```
-http://localhost:5000/api/users/3/orders
+https://assignment-two-lac.vercel.app/api/users/3/orders
 ```
 
-### get product 
+### get product
+
 method : get
+
 ```
-http://localhost:5000/api/users/3/orders
+https://assignment-two-lac.vercel.app/api/users/3/orders
 ```
-### total product price 
+
+### total product price
+
 method : get
+
 ```
-http://localhost:5000/api/users/1/orders/total-price
+https://assignment-two-lac.vercel.app/api/users/1/orders/total-price
 ```
